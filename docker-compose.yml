@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5268:5268"
+      - "7085:7085"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=hackaton2024;Username=postgres;Password=QazPlmHack10!
+      - DOTNET_RUNNING_IN_CONTAINER=true
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: hackaton2024
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: QazPlmHack10!
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
